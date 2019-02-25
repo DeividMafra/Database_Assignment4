@@ -1,3 +1,7 @@
+/*Diego Perez
+* Create this line to erase the database and re-create it.
+*/
+--Drop database INSURANCE_COMPANY
 /*create database INSURANCE_COMPANY;*/
 
 CREATE TABLE DEPARTMENT
