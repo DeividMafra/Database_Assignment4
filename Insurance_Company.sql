@@ -250,18 +250,18 @@ ALTER TABLE CUSTOMER
 	  */
 
 --Procedure Country
-CREATE PROCEDURE dbo.country_insert @country_name nvarchar(256), 
-                                    @usr_create   nvarchar(3)
-AS
+--CREATE PROCEDURE dbo.country_insert @country_name nvarchar(256), 
+--                                    @usr_create   nvarchar(3)
+--AS
 
-	insert into dbo.COUNTRY (country_name,
-							 usr_create,
-							 date_create,
-							 usr_update,
-							 date_update)
-					 values (@country_name,
-							 @usr_create,
-							  getdate(),
-							  @usr_create,
-							  getdate())
-GO;
+--	insert into dbo.COUNTRY (country_name,
+--							 usr_create,
+--							 date_create,
+--							 usr_update,
+--							 date_update)
+--					 values (@country_name,
+--							 @usr_create,
+--							  getdate(),
+--							  @usr_create,
+--							  getdate())
+--GO;
