@@ -5,6 +5,7 @@ CREATE TABLE DEPARTMENT
    department_name	VARCHAR(256)	NOT NULL,
 );
 
+/* ADD PRIMARY KEY */
 ALTER TABLE DEPARTMENT 
   ADD CONSTRAINT department_department_id_pk
       PRIMARY KEY( department_id );
