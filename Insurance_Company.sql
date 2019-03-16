@@ -19,6 +19,7 @@ CREATE TABLE DEPARTMENT
    date_update      DATE            NOT NULL  
 );
 
+/* ADD PRIMARY KEY */
 ALTER TABLE DEPARTMENT 
   ADD CONSTRAINT department_department_id_pk
       PRIMARY KEY( department_id );
@@ -253,6 +254,7 @@ ALTER TABLE CUSTOMER
   ADD CONSTRAINT customer_country_id_fk
       FOREIGN KEY( country_id )
       REFERENCES country( country_id );
+
 	  */
 
 --Procedure Country
