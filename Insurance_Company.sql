@@ -227,6 +227,11 @@ ALTER TABLE POLICY
       FOREIGN KEY( product_id )
       REFERENCES product( product_id );
 
+ALTER TABLE POLICY
+  ADD CONSTRAINT policy_category_id_fk
+      FOREIGN KEY( category_id )
+      REFERENCES category( category_id );
+
 ALTER TABLE STAFF
   ADD CONSTRAINT staff_department_id_fk
       FOREIGN KEY( department_id )
@@ -308,6 +313,11 @@ ALTER TABLE TERM
   ADD CONSTRAINT term_id_pk
 	PRIMARY KEY (term_id);
 
+ALTER TABLE POLICY
+  ADD CONSTRAINT policy_term_id_fk
+      FOREIGN KEY( term_id )
+      REFERENCES term ( term_id );
+
 CREATE TABLE COVERAGE
 (
 	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
@@ -321,3 +331,8 @@ CREATE TABLE COVERAGE
 ALTER TABLE COVERAGE
 	ADD CONSTRAINT coverage_id_pk
 		PRIMARY KEY (coverage_id);
+
+ALTER TABLE POLICY
+  ADD CONSTRAINT policy_coverage_id_fk
+      FOREIGN KEY( coverage_id )
+      REFERENCES coverage ( coverage_id );
