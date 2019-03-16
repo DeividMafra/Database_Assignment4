@@ -25,7 +25,7 @@ ALTER TABLE DEPARTMENT
 
 --TABLE CATEGORY
 CREATE TABLE CATEGORY
-(  category_id	    INTEGER	        NOT NULL,
+(  category_id	    VARCHAR(3)	    NOT NULL,
    category_name	VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
    date_create      DATE            NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE CUSTOMER
 (  customer_id		INTEGER	        NOT NULL	IDENTITY(1,1),
    last_name		VARCHAR(256)	NOT NULL,
    first_name		VARCHAR(256)	NOT NULL,
-   category_id		INTEGER         NOT NULL,
+   --category_id		INTEGER         NOT NULL,
    phone			INTEGER	        NOT NULL,
    email			VARCHAR(256),
    address			VARCHAR(256)	NOT NULL,
@@ -191,10 +191,14 @@ CREATE TABLE POLICY
    staff_id			INTEGER	     NOT NULL,
    customer_id		INTEGER	     NOT NULL,
    product_id		INTEGER      NOT NULL,
+   category_id      VARCHAR(3)   NOT NULL,
+   benefit_id       INTEGER      NOT NULL,
+   term_id          INTEGER      NOT NULL,
+   coverage_id      INTEGER      NOT NULL,
    usr_create       VARCHAR(3)   NOT NULL,
-   date_create      DATE         NOT NULL,
+   date_create      DATE         NOT NULL  DEFAULT GETDATE(),
    usr_update       VARCHAR(3)   NOT NULL,
-   date_update      DATE         NOT NULL
+   date_update      DATE         NOT NULL  DEFAULT GETDATE()
 );
 
 ALTER TABLE POLICY 
@@ -227,11 +231,13 @@ ALTER TABLE STAFF
       FOREIGN KEY( department_id )
       REFERENCES department( department_id );
 
-ALTER TABLE CUSTOMER
+
+
+/*ALTER TABLE CUSTOMER
   ADD CONSTRAINT customer_category_id_fk
       FOREIGN KEY( category_id )
       REFERENCES category( category_id );
-
+	  */
 ALTER TABLE CUSTOMER
   ADD CONSTRAINT customer_city_id_fk
       FOREIGN KEY( city_id )
@@ -265,3 +271,51 @@ ALTER TABLE CUSTOMER
 --							  @usr_create,
 --							  getdate())
 --GO;
+
+CREATE TABLE BENEFIT
+(
+	benefit_id           INTEGER       NOT NULL IDENTITY(1,1),
+	benefit_description  VARCHAR(3200) NOT NULL,
+	usr_create           VARCHAR(3)    NOT NULL,
+    date_create          DATE          NOT NULL,
+    usr_update           VARCHAR(3)    NOT NULL,
+    date_update          DATE          NOT NULL
+);
+
+ALTER TABLE BENEFIT 
+  ADD CONSTRAINT benefit_id_pk
+      PRIMARY KEY( benefit_id );
+
+ALTER TABLE POLICY
+  ADD CONSTRAINT policy_benefit_id_fk
+      FOREIGN KEY( benefit_id )
+      REFERENCES benefit ( benefit_id );
+
+CREATE TABLE TERM
+(
+	term_id         INTEGER    NOT NULL IDENTITY(1,1),
+	term_range_min  INTEGER    NOT NULL,
+	term_range_max  INTEGER    NOT NULL,
+	usr_create      VARCHAR(3) NOT NULL,
+    date_create     DATE       NOT NULL DEFAULT GETDATE(),
+    usr_update      VARCHAR(3) NOT NULL,
+    date_update     DATE       NOT NULL DEFAULT GETDATE()
+);
+
+ALTER TABLE TERM
+  ADD CONSTRAINT term_id_pk
+	PRIMARY KEY (term_id);
+
+CREATE TABLE COVERAGE
+(
+	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
+	coverage_price DECIMAL(14,2) NOT NULL,
+	usr_create      VARCHAR(3)   NOT NULL,
+    date_create     DATE         NOT NULL DEFAULT GETDATE(),
+    usr_update      VARCHAR(3)   NOT NULL,
+    date_update     DATE         NOT NULL DEFAULT GETDATE()
+);
+
+ALTER TABLE COVERAGE
+	ADD CONSTRAINT coverage_id_pk
+		PRIMARY KEY (coverage_id);
