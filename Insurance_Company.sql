@@ -125,7 +125,7 @@ CREATE TABLE PRODUCT
    indenization_procedure	VARCHAR(8000)	NOT NULL,
    data_protection_advice	VARCHAR(8000)	NOT NULL,
    emergency_procedure		VARCHAR(8000)	NOT NULL,
-   available				VARCHAR(8000)	NOT NULL,
+   available				BIT         	NOT NULL,
    usr_create               VARCHAR(3)      NOT NULL,
    date_create              DATE            NOT NULL,
    usr_update               VARCHAR(3)      NOT NULL,
