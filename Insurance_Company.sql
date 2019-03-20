@@ -1,16 +1,14 @@
-/*Diego Perez
-* Create this line to erase the database and re-create it.
-*/
---Drop database INSURANCE_COMPANY
-/*
-create database INSURANCE_COMPANY;
-*/
+/* This line to erase the database.
+Drop database INSURANCE_COMPANY */
+
+/* This line to create the database.
+create database INSURANCE_COMPANY */
 
 USE INSURANCE_COMPANY;
 
---TABLE DEPARTMENT
+-- TABLE DEPARTMENT
 CREATE TABLE DEPARTMENT
-(  --The departmet_id could be a varchar idetifier
+(  -- The departmet_id could be a varchar idetifier
    department_id	INTEGER	        NOT NULL	IDENTITY(1,1),
    department_name	VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
@@ -19,7 +17,7 @@ CREATE TABLE DEPARTMENT
    date_update      DATE            NOT NULL  
 );
 
-/* ADD PRIMARY KEY */
+-- ADD PRIMARY KEY
 ALTER TABLE DEPARTMENT 
   ADD CONSTRAINT department_department_id_pk
       PRIMARY KEY( department_id );
@@ -29,14 +27,13 @@ ALTER TABLE DEPARTMENT
 	ADD CONSTRAINT chk_date_update
    CHECK (date_update >= date_create)
 
--- testing the constraint
-
-INSERT INTO POLICY VALUES ( 1100, DEFAULT, '2019-02-28', NULL );
-
---TABLE CATEGORY
+-- TABLE CATEGORY
 CREATE TABLE CATEGORY
 (  category_id	    VARCHAR(3)	    NOT NULL,
    category_name	VARCHAR(256)	NOT NULL,
+   monthly_price    NUMERIC(6,2)    NOT NULL,
+   coverage         DECIMAL(14,2)   NOT NULL,
+   term             INTEGER         NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
    date_create      DATE            NOT NULL,
    usr_update       VARCHAR(3)      NOT NULL,
@@ -47,7 +44,7 @@ ALTER TABLE CATEGORY
   ADD CONSTRAINT category_category_id_pk
       PRIMARY KEY( category_id );
 
---TABLE SPONSOR
+-- TABLE SPONSOR
 CREATE TABLE SPONSOR
 (  sponsor_id		INTEGER	        NOT NULL	IDENTITY(1,1),
    company_name		VARCHAR(256)	NOT NULL,
@@ -65,9 +62,9 @@ ALTER TABLE SPONSOR
   ADD CONSTRAINT sponsor_sponsor_id_pk
       PRIMARY KEY( sponsor_id );
 
---TABLE COUNTRY
+-- TABLE COUNTRY
 CREATE TABLE COUNTRY
-(  --the country_id could be a varchar column too.
+(  -- the country_id could be a varchar column too.
    country_id	    INTEGER	        NOT NULL    IDENTITY(1,1),
    country_name	    VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
@@ -80,9 +77,9 @@ ALTER TABLE COUNTRY
   ADD CONSTRAINT country_country_id_pk
       PRIMARY KEY( country_id );
 
---TABLE PROVINCE
+-- TABLE PROVINCE
 CREATE TABLE PROVINCE
-(  --The province_id could be a varchar too.
+(  -- The province_id could be a varchar too.
    province_id	    INTEGER	        NOT NULL,
    province_name	VARCHAR(256)	NOT NULL,
    country_id	    INTEGER	        NOT NULL,
@@ -127,7 +124,7 @@ CREATE TABLE PRODUCT
    name						VARCHAR(256)	NOT NULL,
    description				VARCHAR(256)	NOT NULL,
    definition				VARCHAR(8000)	NOT NULL,
-   benefits					VARCHAR(8000)	NOT NULL,
+   --benefits					VARCHAR(8000)	NOT NULL,
    limits					VARCHAR(8000)	NOT NULL,
    exclusions				VARCHAR(8000)	NOT NULL,
    general_condition		VARCHAR(8000)	NOT NULL,
@@ -202,9 +199,9 @@ CREATE TABLE POLICY
    customer_id		INTEGER	     NOT NULL,
    product_id		INTEGER      NOT NULL,
    category_id      VARCHAR(3)   NOT NULL,
-   benefit_id       INTEGER      NOT NULL,
-   term_id          INTEGER      NOT NULL,
-   coverage_id      INTEGER      NOT NULL,
+   --benefit_id       INTEGER      NOT NULL,
+   --term_id          INTEGER      NOT NULL,
+   --coverage_id      INTEGER      NOT NULL,
    usr_create       VARCHAR(3)   NOT NULL,
    date_create      DATE         NOT NULL  DEFAULT GETDATE(),
    usr_update       VARCHAR(3)   NOT NULL,
@@ -214,11 +211,6 @@ CREATE TABLE POLICY
 ALTER TABLE POLICY
 ADD CONSTRAINT chkTerm_expire_date
 CHECK (expire_date >= issue_date)
-
---INSERT TO TEST
-INSERT INTO POLICY (issue_date,expire_date,previous_policy,staff_id,customer_id,product_id,category_id,benefit_id,
-term_id,coverage_id,usr_create,date_create,usr_update,date_update)
- VALUES (DEFAULT,'2019-03-21',1020,001,100,123,'GOL',999,101,500,'DPM',DEFAULT,'DAP','03-21-2019')
 
 --term_range_max
 
@@ -302,6 +294,7 @@ ALTER TABLE CUSTOMER
 CREATE TABLE BENEFIT
 (
 	benefit_id           INTEGER       NOT NULL IDENTITY(1,1),
+	benefit_name         VARCHAR(250)  NOT NULL,
 	benefit_description  VARCHAR(3200) NOT NULL,
 	usr_create           VARCHAR(3)    NOT NULL,
     date_create          DATE          NOT NULL,
@@ -313,60 +306,75 @@ ALTER TABLE BENEFIT
   ADD CONSTRAINT benefit_id_pk
       PRIMARY KEY( benefit_id );
 
-ALTER TABLE POLICY
-  ADD CONSTRAINT policy_benefit_id_fk
+CREATE TABLE CATEGORY_BENEFIT
+(
+	category_ben_id         INTEGER      NOT NULL IDENTITY(1,1),
+	category_id             VARCHAR(3)   NOT NULL,
+	benefit_id              INTEGER      NOT NULL,
+	usr_create              VARCHAR(3)   NOT NULL,
+    date_create             DATE         NOT NULL,
+    usr_update              VARCHAR(3)   NOT NULL,
+    date_update             DATE         NOT NULL
+);
+
+--ALTER TABLE TERM
+--  ADD CONSTRAINT term_id_pk
+--	PRIMARY KEY (term_id);
+
+--ALTER TABLE POLICY
+--  ADD CONSTRAINT policy_term_id_fk
+--      FOREIGN KEY( term_id )
+--      REFERENCES term ( term_id );
+
+ALTER TABLE CATEGORY_BENEFIT 
+  ADD CONSTRAINT category_ben_id_pk
+      PRIMARY KEY( category_ben_id );
+
+ALTER TABLE CATEGORY_BENEFIT
+  ADD CONSTRAINT category_catego_id_fk
+      FOREIGN KEY( category_id )
+      REFERENCES category ( category_id );
+
+ALTER TABLE CATEGORY_BENEFIT
+  ADD CONSTRAINT benefit_catego_id_fk
       FOREIGN KEY( benefit_id )
       REFERENCES benefit ( benefit_id );
 
-CREATE TABLE TERM
-(
-	term_id         INTEGER    NOT NULL IDENTITY(1,1),
-	term_range_min  INTEGER    NOT NULL,
-	term_range_max  INTEGER    NOT NULL,
-	usr_create      VARCHAR(3) NOT NULL,
-    date_create     DATE       NOT NULL DEFAULT GETDATE(),
-    usr_update      VARCHAR(3) NOT NULL,
-    date_update     DATE       NOT NULL DEFAULT GETDATE()
-);
+--CREATE TABLE TERM
+--(
+--	term_id         INTEGER    NOT NULL IDENTITY(1,1),
+--	term_range_min  INTEGER    NOT NULL,
+--	term_range_max  INTEGER    NOT NULL,
+--	usr_create      VARCHAR(3) NOT NULL,
+--    date_create     DATE       NOT NULL DEFAULT GETDATE(),
+--    usr_update      VARCHAR(3) NOT NULL,
+--    date_update     DATE       NOT NULL DEFAULT GETDATE()
+--);
 
--- insert to test the table
+--ALTER TABLE TERM
+--  ADD CONSTRAINT term_id_pk
+--	PRIMARY KEY (term_id);
 
-INSERT INTO TERM VALUES (5, 10, 'DPM', DEFAULT, 'DAP', DEFAULT)
-INSERT INTO TERM VALUES (10, 20, 'DPM', DEFAULT, 'DAP', '2019-03-15')
+--ALTER TABLE POLICY
+--  ADD CONSTRAINT policy_term_id_fk
+--      FOREIGN KEY( term_id )
+--      REFERENCES term ( term_id );
 
-/* Msg 547, Level 16, State 0, Line 324
-The INSERT statement conflicted with the CHECK constraint "chkTerm_date_update". The conflict occurred in database "INSURANCE_COMPANY", table "dbo.TERM".
-The statement has been terminated.*/
+--CREATE TABLE COVERAGE
+--(
+--	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
+--	coverage_price DECIMAL(14,2) NOT NULL,
+--	usr_create      VARCHAR(3)   NOT NULL,
+--    date_create     DATE         NOT NULL DEFAULT GETDATE(),
+--    usr_update      VARCHAR(3)   NOT NULL,
+--    date_update     DATE         NOT NULL DEFAULT GETDATE()
+--);
 
--- ADD DATE_UPDATE CONSTRAINT - IT COULD NOT BE BEFORE DATE_CREATE
-ALTER TABLE TERM
-	ADD CONSTRAINT chkTerm_date_update
-   CHECK (date_update >= date_create)
+--ALTER TABLE COVERAGE
+--	ADD CONSTRAINT coverage_id_pk
+--		PRIMARY KEY (coverage_id);
 
-ALTER TABLE TERM
-  ADD CONSTRAINT term_id_pk
-	PRIMARY KEY (term_id);
-
-ALTER TABLE POLICY
-  ADD CONSTRAINT policy_term_id_fk
-      FOREIGN KEY( term_id )
-      REFERENCES term ( term_id );
-
-CREATE TABLE COVERAGE
-(
-	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
-	coverage_price DECIMAL(14,2) NOT NULL,
-	usr_create      VARCHAR(3)   NOT NULL,
-    date_create     DATE         NOT NULL DEFAULT GETDATE(),
-    usr_update      VARCHAR(3)   NOT NULL,
-    date_update     DATE         NOT NULL DEFAULT GETDATE()
-);
-
-ALTER TABLE COVERAGE
-	ADD CONSTRAINT coverage_id_pk
-		PRIMARY KEY (coverage_id);
-
-ALTER TABLE POLICY
-  ADD CONSTRAINT policy_coverage_id_fk
-      FOREIGN KEY( coverage_id )
-      REFERENCES coverage ( coverage_id );
+--ALTER TABLE POLICY
+--  ADD CONSTRAINT policy_coverage_id_fk
+--      FOREIGN KEY( coverage_id )
+--      REFERENCES coverage ( coverage_id );
