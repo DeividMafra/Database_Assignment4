@@ -24,6 +24,15 @@ ALTER TABLE DEPARTMENT
   ADD CONSTRAINT department_department_id_pk
       PRIMARY KEY( department_id );
 
+-- ADD DATE_UPDATE CONSTRAINT - IT COULD NOT BE BEFORE DATE_CREATE
+ALTER TABLE DEPARTMENT
+	ADD CONSTRAINT chk_date_update
+   CHECK (date_update >= date_create)
+
+-- testing the constraint
+
+INSERT INTO POLICY VALUES ( 1100, DEFAULT, '2019-02-28', NULL );
+
 --TABLE CATEGORY
 CREATE TABLE CATEGORY
 (  category_id	    VARCHAR(3)	    NOT NULL,
@@ -178,7 +187,7 @@ CREATE TABLE CUSTOMER
    usr_update       VARCHAR(3)      NOT NULL,
    date_update      DATE            NOT NULL
 );
-
+	
 ALTER TABLE CUSTOMER 
   ADD CONSTRAINT customer_customer_id_pk
       PRIMARY KEY( customer_id );
@@ -201,6 +210,17 @@ CREATE TABLE POLICY
    usr_update       VARCHAR(3)   NOT NULL,
    date_update      DATE         NOT NULL  DEFAULT GETDATE()
 );
+
+ALTER TABLE POLICY
+ADD CONSTRAINT chkTerm_expire_date
+CHECK (expire_date >= issue_date)
+
+--INSERT TO TEST
+INSERT INTO POLICY (issue_date,expire_date,previous_policy,staff_id,customer_id,product_id,category_id,benefit_id,
+term_id,coverage_id,usr_create,date_create,usr_update,date_update)
+ VALUES (DEFAULT,'2019-03-21',1020,001,100,123,'GOL',999,101,500,'DPM',DEFAULT,'DAP','03-21-2019')
+
+--term_range_max
 
 ALTER TABLE POLICY 
   ADD CONSTRAINT policy_policy_id_pk
@@ -308,6 +328,20 @@ CREATE TABLE TERM
     usr_update      VARCHAR(3) NOT NULL,
     date_update     DATE       NOT NULL DEFAULT GETDATE()
 );
+
+-- insert to test the table
+
+INSERT INTO TERM VALUES (5, 10, 'DPM', DEFAULT, 'DAP', DEFAULT)
+INSERT INTO TERM VALUES (10, 20, 'DPM', DEFAULT, 'DAP', '2019-03-15')
+
+/* Msg 547, Level 16, State 0, Line 324
+The INSERT statement conflicted with the CHECK constraint "chkTerm_date_update". The conflict occurred in database "INSURANCE_COMPANY", table "dbo.TERM".
+The statement has been terminated.*/
+
+-- ADD DATE_UPDATE CONSTRAINT - IT COULD NOT BE BEFORE DATE_CREATE
+ALTER TABLE TERM
+	ADD CONSTRAINT chkTerm_date_update
+   CHECK (date_update >= date_create)
 
 ALTER TABLE TERM
   ADD CONSTRAINT term_id_pk
