@@ -141,3 +141,21 @@ INSERT INTO CUSTOMER (last_name,
 
 SELECT *
   FROM CUSTOMER;
+
+/*Product Table*/
+INSERT INTO PRODUCT (name,
+                     description,
+					 definition,
+					 limits,
+					 exclusions,
+					 general_condition,
+					 indenization_procedure,
+					 data_protection_advice,
+					 emergency_procedure,
+					 available,
+					 usr_create,
+					 date_create,
+					 usr_update,
+					 date_update)
+			 VALUES ('',
+			         ''
