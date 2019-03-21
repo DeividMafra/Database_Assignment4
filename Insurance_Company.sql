@@ -77,7 +77,7 @@ ALTER TABLE COUNTRY
 --TABLE PROVINCE
 CREATE TABLE PROVINCE
 (  --The province_id could be a varchar too.
-   province_id	    INTEGER	        NOT NULL,
+   province_id	    INTEGER	        NOT NULL IDENTITY(1,1),
    province_name	VARCHAR(256)	NOT NULL,
    country_id	    INTEGER	        NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
@@ -97,7 +97,7 @@ ALTER TABLE PROVINCE
 
 --TABLE CITY
 CREATE TABLE CITY
-(  city_id	        INTEGER	        NOT NULL,
+(  city_id	        INTEGER	        NOT NULL IDENTITY(1,1)S,
    city_name	    VARCHAR(256)    NOT NULL,
    province_id	    INTEGER	        NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
