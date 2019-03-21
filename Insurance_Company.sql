@@ -122,7 +122,7 @@ ALTER TABLE CITY
 CREATE TABLE PRODUCT
 (  product_id				INTEGER	NOT NULL	IDENTITY(1,1),
    name						VARCHAR(256)	NOT NULL,
-   description				VARCHAR(256)	NOT NULL,
+   description				VARCHAR(8000)	NOT NULL, -- changed
    definition				VARCHAR(8000)	NOT NULL,
    --benefits					VARCHAR(8000)	NOT NULL,
    limits					VARCHAR(8000)	NOT NULL,
