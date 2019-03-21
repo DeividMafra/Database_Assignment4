@@ -1,16 +1,14 @@
-/*Diego Perez
-* Create this line to erase the database and re-create it.
-*/
---Drop database INSURANCE_COMPANY
-/*
-create database INSURANCE_COMPANY;
-*/
+/* This line to erase the database.
+Drop database INSURANCE_COMPANY */
+
+/* This line to create the database.
+create database INSURANCE_COMPANY */
 
 USE INSURANCE_COMPANY;
 
---TABLE DEPARTMENT
+-- TABLE DEPARTMENT
 CREATE TABLE DEPARTMENT
-(  --The departmet_id could be a varchar idetifier
+(  -- The departmet_id could be a varchar idetifier
    department_id	INTEGER	        NOT NULL	IDENTITY(1,1),
    department_name	VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
@@ -19,12 +17,17 @@ CREATE TABLE DEPARTMENT
    date_update      DATE            NOT NULL  
 );
 
-/* ADD PRIMARY KEY */
+-- ADD PRIMARY KEY
 ALTER TABLE DEPARTMENT 
   ADD CONSTRAINT department_department_id_pk
       PRIMARY KEY( department_id );
 
---TABLE CATEGORY
+-- ADD DATE_UPDATE CONSTRAINT - IT COULD NOT BE BEFORE DATE_CREATE
+ALTER TABLE DEPARTMENT
+	ADD CONSTRAINT chk_date_update
+   CHECK (date_update >= date_create)
+
+-- TABLE CATEGORY
 CREATE TABLE CATEGORY
 (  category_id	    VARCHAR(3)	    NOT NULL,
    category_name	VARCHAR(256)	NOT NULL,
@@ -41,7 +44,7 @@ ALTER TABLE CATEGORY
   ADD CONSTRAINT category_category_id_pk
       PRIMARY KEY( category_id );
 
---TABLE SPONSOR
+-- TABLE SPONSOR
 CREATE TABLE SPONSOR
 (  sponsor_id		INTEGER	        NOT NULL	IDENTITY(1,1),
    company_name		VARCHAR(256)	NOT NULL,
@@ -59,9 +62,9 @@ ALTER TABLE SPONSOR
   ADD CONSTRAINT sponsor_sponsor_id_pk
       PRIMARY KEY( sponsor_id );
 
---TABLE COUNTRY
+-- TABLE COUNTRY
 CREATE TABLE COUNTRY
-(  --the country_id could be a varchar column too.
+(  -- the country_id could be a varchar column too.
    country_id	    INTEGER	        NOT NULL    IDENTITY(1,1),
    country_name	    VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
@@ -74,7 +77,7 @@ ALTER TABLE COUNTRY
   ADD CONSTRAINT country_country_id_pk
       PRIMARY KEY( country_id );
 
---TABLE PROVINCE
+-- TABLE PROVINCE
 CREATE TABLE PROVINCE
 (  --The province_id could be a varchar too.
    province_id	    INTEGER	        NOT NULL IDENTITY(1,1),
@@ -181,7 +184,7 @@ CREATE TABLE CUSTOMER
    usr_update       VARCHAR(3)      NOT NULL,
    date_update      DATE            NOT NULL
 );
-
+	
 ALTER TABLE CUSTOMER 
   ADD CONSTRAINT customer_customer_id_pk
       PRIMARY KEY( customer_id );
@@ -204,6 +207,12 @@ CREATE TABLE POLICY
    usr_update       VARCHAR(3)   NOT NULL,
    date_update      DATE         NOT NULL  DEFAULT GETDATE()
 );
+
+ALTER TABLE POLICY
+ADD CONSTRAINT chkTerm_expire_date
+CHECK (expire_date >= issue_date)
+
+--term_range_max
 
 ALTER TABLE POLICY 
   ADD CONSTRAINT policy_policy_id_pk
@@ -307,6 +316,15 @@ CREATE TABLE CATEGORY_BENEFIT
     usr_update              VARCHAR(3)   NOT NULL,
     date_update             DATE         NOT NULL
 );
+
+--ALTER TABLE TERM
+--  ADD CONSTRAINT term_id_pk
+--	PRIMARY KEY (term_id);
+
+--ALTER TABLE POLICY
+--  ADD CONSTRAINT policy_term_id_fk
+--      FOREIGN KEY( term_id )
+--      REFERENCES term ( term_id );
 
 ALTER TABLE CATEGORY_BENEFIT 
   ADD CONSTRAINT category_ben_id_pk
