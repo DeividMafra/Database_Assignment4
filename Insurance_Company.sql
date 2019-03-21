@@ -28,6 +28,9 @@ ALTER TABLE DEPARTMENT
 CREATE TABLE CATEGORY
 (  category_id	    VARCHAR(3)	    NOT NULL,
    category_name	VARCHAR(256)	NOT NULL,
+   monthly_price    NUMERIC(6,2)    NOT NULL,
+   coverage         DECIMAL(14,2)   NOT NULL,
+   term             INTEGER         NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
    date_create      DATE            NOT NULL,
    usr_update       VARCHAR(3)      NOT NULL,
@@ -118,7 +121,7 @@ CREATE TABLE PRODUCT
    name						VARCHAR(256)	NOT NULL,
    description				VARCHAR(256)	NOT NULL,
    definition				VARCHAR(8000)	NOT NULL,
-   benefits					VARCHAR(8000)	NOT NULL,
+   --benefits					VARCHAR(8000)	NOT NULL,
    limits					VARCHAR(8000)	NOT NULL,
    exclusions				VARCHAR(8000)	NOT NULL,
    general_condition		VARCHAR(8000)	NOT NULL,
@@ -193,9 +196,9 @@ CREATE TABLE POLICY
    customer_id		INTEGER	     NOT NULL,
    product_id		INTEGER      NOT NULL,
    category_id      VARCHAR(3)   NOT NULL,
-   benefit_id       INTEGER      NOT NULL,
-   term_id          INTEGER      NOT NULL,
-   coverage_id      INTEGER      NOT NULL,
+   --benefit_id       INTEGER      NOT NULL,
+   --term_id          INTEGER      NOT NULL,
+   --coverage_id      INTEGER      NOT NULL,
    usr_create       VARCHAR(3)   NOT NULL,
    date_create      DATE         NOT NULL  DEFAULT GETDATE(),
    usr_update       VARCHAR(3)   NOT NULL,
@@ -282,6 +285,7 @@ ALTER TABLE CUSTOMER
 CREATE TABLE BENEFIT
 (
 	benefit_id           INTEGER       NOT NULL IDENTITY(1,1),
+	benefit_name         VARCHAR(250)  NOT NULL,
 	benefit_description  VARCHAR(3200) NOT NULL,
 	usr_create           VARCHAR(3)    NOT NULL,
     date_create          DATE          NOT NULL,
@@ -293,46 +297,66 @@ ALTER TABLE BENEFIT
   ADD CONSTRAINT benefit_id_pk
       PRIMARY KEY( benefit_id );
 
-ALTER TABLE POLICY
-  ADD CONSTRAINT policy_benefit_id_fk
+CREATE TABLE CATEGORY_BENEFIT
+(
+	category_ben_id         INTEGER      NOT NULL IDENTITY(1,1),
+	category_id             VARCHAR(3)   NOT NULL,
+	benefit_id              INTEGER      NOT NULL,
+	usr_create              VARCHAR(3)   NOT NULL,
+    date_create             DATE         NOT NULL,
+    usr_update              VARCHAR(3)   NOT NULL,
+    date_update             DATE         NOT NULL
+);
+
+ALTER TABLE CATEGORY_BENEFIT 
+  ADD CONSTRAINT category_ben_id_pk
+      PRIMARY KEY( category_ben_id );
+
+ALTER TABLE CATEGORY_BENEFIT
+  ADD CONSTRAINT category_catego_id_fk
+      FOREIGN KEY( category_id )
+      REFERENCES category ( category_id );
+
+ALTER TABLE CATEGORY_BENEFIT
+  ADD CONSTRAINT benefit_catego_id_fk
       FOREIGN KEY( benefit_id )
       REFERENCES benefit ( benefit_id );
 
-CREATE TABLE TERM
-(
-	term_id         INTEGER    NOT NULL IDENTITY(1,1),
-	term_range_min  INTEGER    NOT NULL,
-	term_range_max  INTEGER    NOT NULL,
-	usr_create      VARCHAR(3) NOT NULL,
-    date_create     DATE       NOT NULL DEFAULT GETDATE(),
-    usr_update      VARCHAR(3) NOT NULL,
-    date_update     DATE       NOT NULL DEFAULT GETDATE()
-);
+--CREATE TABLE TERM
+--(
+--	term_id         INTEGER    NOT NULL IDENTITY(1,1),
+--	term_range_min  INTEGER    NOT NULL,
+--	term_range_max  INTEGER    NOT NULL,
+--	usr_create      VARCHAR(3) NOT NULL,
+--    date_create     DATE       NOT NULL DEFAULT GETDATE(),
+--    usr_update      VARCHAR(3) NOT NULL,
+--    date_update     DATE       NOT NULL DEFAULT GETDATE()
+--);
 
-ALTER TABLE TERM
-  ADD CONSTRAINT term_id_pk
-	PRIMARY KEY (term_id);
+--ALTER TABLE TERM
+--  ADD CONSTRAINT term_id_pk
+--	PRIMARY KEY (term_id);
 
-ALTER TABLE POLICY
-  ADD CONSTRAINT policy_term_id_fk
-      FOREIGN KEY( term_id )
-      REFERENCES term ( term_id );
+--ALTER TABLE POLICY
+--  ADD CONSTRAINT policy_term_id_fk
+--      FOREIGN KEY( term_id )
+--      REFERENCES term ( term_id );
 
-CREATE TABLE COVERAGE
-(
-	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
-	coverage_price DECIMAL(14,2) NOT NULL,
-	usr_create      VARCHAR(3)   NOT NULL,
-    date_create     DATE         NOT NULL DEFAULT GETDATE(),
-    usr_update      VARCHAR(3)   NOT NULL,
-    date_update     DATE         NOT NULL DEFAULT GETDATE()
-);
+--CREATE TABLE COVERAGE
+--(
+--	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
+--	coverage_price DECIMAL(14,2) NOT NULL,
+--	usr_create      VARCHAR(3)   NOT NULL,
+--    date_create     DATE         NOT NULL DEFAULT GETDATE(),
+--    usr_update      VARCHAR(3)   NOT NULL,
+--    date_update     DATE         NOT NULL DEFAULT GETDATE()
+--);
 
-ALTER TABLE COVERAGE
-	ADD CONSTRAINT coverage_id_pk
-		PRIMARY KEY (coverage_id);
+--ALTER TABLE COVERAGE
+--	ADD CONSTRAINT coverage_id_pk
+--		PRIMARY KEY (coverage_id);
 
-ALTER TABLE POLICY
-  ADD CONSTRAINT policy_coverage_id_fk
-      FOREIGN KEY( coverage_id )
-      REFERENCES coverage ( coverage_id );
+--ALTER TABLE POLICY
+--  ADD CONSTRAINT policy_coverage_id_fk
+--      FOREIGN KEY( coverage_id )
+--      REFERENCES coverage ( coverage_id );
