@@ -113,3 +113,31 @@ INSERT INTO CITY (city_id,
 SELECT *
   FROM CITY;
 
+/*Customer Table*/
+INSERT INTO CUSTOMER (last_name,
+                      first_name,
+					  phone,
+					  email,
+					  address,
+					  zipcode,
+					  date_of_birth,
+					  city_id,
+					  usr_create,
+					  date_create,
+					  usr_update,
+					  date_update)
+			  VALUES ('Sherwayne',
+			          'LastName',
+					  6479087653,
+					  'wayne@thisemail.com',
+					  '45 McCoway Ave',
+					  'L9R 2W8',
+					  '1988-12-21',
+					  1,
+					  'DAP',
+					  GETDATE(),
+					  'DAP',
+					  GETDATE());
+
+SELECT *
+  FROM CUSTOMER;
