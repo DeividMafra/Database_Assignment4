@@ -157,7 +157,7 @@ INSERT INTO PRODUCT (name, --ok
 					 date_create,
 					 usr_update,
 					 date_update)
-			 VALUES ('EMERGENCY HEALTHCARE',
+			 VALUES ('NORMAL CARE',
 			         'If an Eligible Insured suffers an Emergency Injury or Sickness during the Coverage Period, We will pay the benefits stated in this Policy, subject to all of its terms, conditions, limitations, exclusions and other provisions, for Reasonable and Customary Expenses that are incurred, to the lesser of the Benefit Maximum for that particular benefit, or to the Policy maximum of $5,000,000. All Benefit Maximums contained in this Policy are per Insured for the duration of the Coverage Period unless otherwise specified and are stated in Canadian Dollar currency. It is a condition precedent to coverage under this Policy that at the Effective Date the Insured is not aware of any existing medical condition which might require the Insured to incur any medically related expenses during the Coverage Period.',
 					 'Corrective Device means a device that is required by You on the advice of a Physician, to correct a debilitating physical impairment and without which it would be a physical impossibility for You to continue Your studies or Your teaching responsibilities at the educational institution in which You are enrolled or are teaching. Corrective Devices include prosthetic limbs, wheelchairs, seeing-eye dogs, and hearing aids, but do NOT include eyeglasses. Coverage means the emergency benefits described herein. Coverage is effective throughout the world however Coverage in Home Country is limited; please refer to Excursion or Coverage in Home Country - Canadians (see Benefits), and Exclusion #6. Coverage Period means the period of time during which You are insured for the benefits provided by this Policy, starting from 12:01 a.m. on the Effective Date until 12:00 midnight on either the date (a) specified as the Termination Date on the Application; or (b) of termination of any extension of this Policy. If You return to Your Home Country for any reason other than Excursion or Coverage in Home Country - Canadians (see Benefits), coverage terminates effective the date of Your Return to Your Home Country. The maximum Coverage Period including extensions is 365 consecutive days from the Effective Date. Dentist means a qualified doctor of dentistry lawfully licensed to practice dentistry in the place where dental services are performed, but does not include the Insured or a relative of the Insured. Effective Date means the date Your coverage under this Policy begins. Coverage begins on the latest of the date and time, (a) the required premium is paid, or (b) the date You request as the Start Date on Your Application or (c) the date You leave your Home Country or (d) for returning Canadians, the date you return to Canada.',
 					 'We reserve the right to arrange transportation to return You to Your Home Country following an Emergency, either before or after You receive Medical Treatment, or Hospital or Medical Services. If You decline to return when declared medically fit to travel by the Claim Administrator, We will not pay for any continuing expenses, recurrence or complications arising from or directly or indirectly related thereto. Limitation on Liability The Insurer, the Plan Administrator and/or the Claim Administrator are not responsible for the availability, quality or results of any Medical Treatment, or Your failure to obtain Medical Treatment or transportation and shall not be held liable for any negligence, wrongful acts or omissions of any service providers.',
@@ -175,3 +175,52 @@ INSERT INTO PRODUCT (name, --ok
 SELECT *
 --delete
   FROM PRODUCT;
+
+/*Deparment Table*/
+
+INSERT INTO DEPARTMENT (department_name,
+                        usr_create,
+						date_create,
+						usr_update,
+						date_update)
+				VALUES ('Support - Department',
+				        'DAP',
+						GETDATE(),
+						'DAP',
+						GETDATE());
+
+select *
+  from DEPARTMENT;
+
+/*Staff Table*/
+INSERT INTO STAFF (date_of_birth,
+                   last_name,
+				   first_name,
+				   phone,
+				   email,
+				   address,
+				   zipcode,
+				   isemployee,
+				   hire_date,
+				   department_id,
+				   usr_create,
+				   date_create,
+				   usr_update,
+				   date_update)
+		   VALUES ('1983-09-09',
+		           '------',
+				   'MaanPreet',
+				   6479046744,
+				   'maampreet@gmail.com',
+				   '29 Ovordile Ave',
+				   'M1R2R6',
+				   1,
+				   '2016-02-02',
+				   2,
+				   'DAP',
+				   GETDATE(),
+				   'DAP',
+				   GETDATE());
+
+select *
+  from STAFF;
