@@ -12,9 +12,9 @@ CREATE TABLE DEPARTMENT
    department_id	INTEGER	        NOT NULL	IDENTITY(1,1),
    department_name	VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL  
+   date_update      DATE            NOT NULL  DEFAULT GETDATE() 
 );
 
 -- ADD PRIMARY KEY
@@ -35,9 +35,9 @@ CREATE TABLE CATEGORY
    coverage         DECIMAL(14,2)   NOT NULL,
    term             INTEGER         NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL
+   date_update      DATE            NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE CATEGORY 
@@ -53,9 +53,9 @@ CREATE TABLE SPONSOR
    sales_rep		VARCHAR(256),
    address			VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL
+   date_update      DATE            NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE SPONSOR 
@@ -68,9 +68,9 @@ CREATE TABLE COUNTRY
    country_id	    INTEGER	        NOT NULL    IDENTITY(1,1),
    country_name	    VARCHAR(256)	NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL
+   date_update      DATE            NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE COUNTRY 
@@ -84,9 +84,9 @@ CREATE TABLE PROVINCE
    province_name	VARCHAR(256)	NOT NULL,
    country_id	    INTEGER	        NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL
+   date_update      DATE            NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE PROVINCE 
@@ -104,9 +104,9 @@ CREATE TABLE CITY
    city_name	    VARCHAR(256)    NOT NULL,
    province_id	    INTEGER	        NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL
+   date_update      DATE            NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE CITY 
@@ -133,9 +133,9 @@ CREATE TABLE PRODUCT
    emergency_procedure		VARCHAR(8000)	NOT NULL,
    available				BIT         	NOT NULL,
    usr_create               VARCHAR(3)      NOT NULL,
-   date_create              DATE            NOT NULL,
+   date_create              DATE            NOT NULL DEFAULT GETDATE(),
    usr_update               VARCHAR(3)      NOT NULL,
-   date_update              DATE            NOT NULL
+   date_update              DATE            NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE PRODUCT 
@@ -148,17 +148,17 @@ CREATE TABLE STAFF
    date_of_birth	DATE	       NOT NULL,
    last_name		VARCHAR(256)   NOT NULL,
    first_name		VARCHAR(256)   NOT NULL,
-   phone			INTEGER	       NOT NULL,
+   phone			NUMERIC(10,0)  NOT NULL,
    email			VARCHAR(256),
    address			VARCHAR(256)   NOT NULL,
-   zipcode			INTEGER        NOT NULL,
+   zipcode			VARCHAR(7)     NOT NULL,
    isemployee		BIT            NOT NULL,
    hire_date		DATE	       NOT NULL	DEFAULT getdate(),
    department_id	INTEGER        NOT NULL,
    usr_create       VARCHAR(3)     NOT NULL,
-   date_create      DATE           NOT NULL,
+   date_create      DATE           NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)     NOT NULL,
-   date_update      DATE           NOT NULL
+   date_update      DATE           NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE STAFF 
@@ -180,9 +180,9 @@ CREATE TABLE CUSTOMER
    --province_id		INTEGER NOT NULL,
    --country_id		INTEGER NOT NULL
    usr_create       VARCHAR(3)      NOT NULL,
-   date_create      DATE            NOT NULL,
+   date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
-   date_update      DATE            NOT NULL
+   date_update      DATE            NOT NULL DEFAULT GETDATE()
 );
 	
 ALTER TABLE CUSTOMER 
@@ -192,7 +192,7 @@ ALTER TABLE CUSTOMER
 --TABLE POLICY
 CREATE TABLE POLICY
 (  policy_id		INTEGER	     NOT NULL	IDENTITY(1,1),
-   issue_date		DATE	     NOT NULL	DEFAULT getdate(),
+   issue_date		DATE	     NOT NULL	DEFAULT GETDATE(),
    expire_date		DATE	     NOT NULL,              
    previous_policy	INTEGER,
    staff_id			INTEGER	     NOT NULL,
@@ -202,6 +202,7 @@ CREATE TABLE POLICY
    --benefit_id       INTEGER      NOT NULL,
    --term_id          INTEGER      NOT NULL,
    --coverage_id      INTEGER      NOT NULL,
+   cause_death_id   INTEGER,
    usr_create       VARCHAR(3)   NOT NULL,
    date_create      DATE         NOT NULL  DEFAULT GETDATE(),
    usr_update       VARCHAR(3)   NOT NULL,
@@ -339,6 +340,64 @@ ALTER TABLE CATEGORY_BENEFIT
   ADD CONSTRAINT benefit_catego_id_fk
       FOREIGN KEY( benefit_id )
       REFERENCES benefit ( benefit_id );
+
+/*
+ BENEFICIARY Table
+
+ 1. add a "BENEFICIARY" and "CAUSE_OF_DEATH" tables
+ 2. the primary key inside "CAUSE_OF_DEATH" should be a FK inside the POLICY table*/
+
+CREATE TABLE BENEFICIARY
+(
+	beneficiary_id           INTEGER        NOT NULL  IDENTITY(1,1),
+	beneficiary_last_name    VARCHAR(256)   NOT NULL,
+	beneficiary_name         VARCHAR(256)   NOT NULL,
+	beneficiary_middle_name  VARCHAR(256),
+	beneficiary_brith_day    DATE           NOT NULL,
+	beneficiary_relation     VARCHAR(100)   NOT NULL,
+	beneficiary_percentage   NUMERIC(4,2)   NOT NULL,
+	policy_id		         INTEGER	    NOT NULL, --Foreing key with policy
+	usr_create               VARCHAR(3)     NOT NULL,
+    date_create              DATE           NOT NULL  DEFAULT GETDATE(),
+    usr_update               VARCHAR(3)     NOT NULL,
+    date_update              DATE           NOT NULL DEFAULT GETDATE()
+);
+
+ALTER TABLE BENEFICIARY 
+  ADD CONSTRAINT beneficiary_id_pk
+      PRIMARY KEY( beneficiary_id );
+
+ALTER TABLE BENEFICIARY
+  ADD CONSTRAINT policy_id_fk
+      FOREIGN KEY( policy_id )
+      REFERENCES policy ( policy_id );
+
+/*
+CAUSE_OF_DEATH Table
+*/
+CREATE TABLE CAUSE_OF_DEATH
+(
+	cause_death_id            INTEGER         NOT NULL IDENTITY(1,1),
+	cause_death_description   VARCHAR(8000)   NOT NULL,
+	usr_create                VARCHAR(3)     NOT NULL,
+    date_create               DATE           NOT NULL  DEFAULT GETDATE(),
+    usr_update                VARCHAR(3)     NOT NULL,
+    date_update               DATE           NOT NULL DEFAULT GETDATE()
+);
+
+ALTER TABLE CAUSE_OF_DEATH 
+  ADD CONSTRAINT cause_death_id_pk
+      PRIMARY KEY( cause_death_id );
+
+/*This is an example how to add a column in a table where it is already created.*/
+ALTER TABLE POLICY
+  ADD cause_death_id INTEGER;
+
+--falta
+ALTER TABLE POLICY
+  ADD CONSTRAINT cause_death_id_fk
+      FOREIGN KEY( cause_death_id )
+      REFERENCES CAUSE_OF_DEATH ( cause_death_id );
 
 --CREATE TABLE TERM
 --(
