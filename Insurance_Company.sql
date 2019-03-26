@@ -166,10 +166,10 @@ ALTER TABLE STAFF
       PRIMARY KEY( staff_id );
 
 ALTER TABLE STAFF 
-	DROP COLUMN isemployee;
+	DROP COLUMN fire_date;
 
 ALTER TABLE STAFF 
-	ADD fire_date date;
+	ADD job_ended date;
 
 --TABLE CUSTOMER
 CREATE TABLE CUSTOMER
