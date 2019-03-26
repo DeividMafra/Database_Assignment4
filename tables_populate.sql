@@ -224,3 +224,68 @@ INSERT INTO STAFF (date_of_birth,
 
 select *
   from STAFF;
+
+/*Cause of death table*/
+INSERT INTO CAUSE_OF_DEATH (cause_death_description,
+                            usr_create,
+							usr_update)
+					VALUES ('Yellow Fever',
+					         'DAP',
+							 'DAP');
+
+
+select *
+  from dbo.CAUSE_OF_DEATH;
+
+/*Policy Table*/
+INSERT INTO POLICY(issue_date,
+				   expire_date,
+				   previous_policy,
+				   staff_id,
+				   customer_id,
+				   product_id,
+				   category_id,
+				   cause_death_id,
+				   usr_create,
+				   date_create,
+				   usr_update,
+				   date_update)
+			VALUES (GETDATE(),
+			        '2039-03-25',
+					NULL,
+					1,
+					2, --CUSTOMER ID
+					5, --PRODUCT ID
+					'GOL', --CATEGORY ID
+					NULL,
+					'DAP',
+					GETDATE(),
+					'DAP',
+					GETDATE());
+
+select *
+  from POLICY;
+
+/*Beneficiary table.*/
+
+INSERT INTO BENEFICIARY (beneficiary_last_name,
+						 beneficiary_name,
+						 beneficiary_middle_name,
+						 beneficiary_brith_day,
+						 beneficiary_relation,
+						 beneficiary_porcentage,
+						 policy_id,
+						 usr_create,
+						 usr_update)
+				 VALUES ('Paris',
+				         'Nathalia',
+						 'Andrea',
+						 '1988-04-06',
+						 'Spouse',
+						 50,
+						 7,
+						 'DAP',
+						 'DAP');
+
+Select * 
+  from dbo.BENEFICIARY;
