@@ -1,22 +1,8 @@
 /*Category table*/
-INSERT INTO CATEGORY (category_id, 
-                      category_name,
-					  monthly_price,
-					  coverage,
-					  term,
-					  usr_create,
-					  date_create,
-					  usr_update,
-					  date_update)
-			  VALUES ('BRO',
-			           'BRONCE',
-					   20,
-					   1000000,
-					   5,
-					   'DAP',
-					   GETDATE(),
-					   'DAP',
-					   GETDATE());
+INSERT INTO CATEGORY VALUES
+	('BRO', 'BRONCE', 20, 1000000, 5, 'DAP', GETDATE(), 'DAP', GETDATE()),
+	('GLD', 'GOLD', 50, 4000000, 20, 'DPM', GETDATE(), 'DPM', GETDATE()),
+	('SIL', 'SILVER', 40, 3000000, 10, 'DPM', GETDATE(), 'DPM', GETDATE());
 
 SELECT *
   FROM CATEGORY;
@@ -24,18 +10,41 @@ SELECT *
 
 
 /*Benefits Table*/
-INSERT INTO BENEFIT (benefit_name,
-                     benefit_description,
-                     usr_create,
-					 date_create,
-					 usr_update,
-					 date_update)
-		     VALUES ('Medical Equipment and Supplies',
-			         'Payable only if required as the result of a covered Sickness or Injury. Purchase of medical supplies, including dressings and prosthetic appliances; Rental charges for wheelchairs, crutches, Hospital-type bed or other appliances, not to exceed purchase price. Up to $200 Benefit Maximum for prescription glasses or contact lenses, or up to $300 Benefit Maximum for hearing aids. Up to $300 Benefit Maximum for custom orthotics, or up to $800 Benefit Maximum for custom knee braces.',
-			         'DAP',
-					 GETDATE(),
-					 'DAP',
-					 GETDATE());
+INSERT INTO BENEFIT VALUES 
+	('Medical Equipment and Supplies', 
+	'Payable only if required as the result of a covered Sickness or Injury. Purchase of medical supplies, including dressings and prosthetic appliances; Rental charges for wheelchairs, crutches, Hospital-type bed or other appliances, not to exceed purchase price. Up to $200 Benefit Maximum for prescription glasses or contact lenses, or up to $300 Benefit Maximum for hearing aids. Up to $300 Benefit Maximum for custom orthotics, or up to $800 Benefit Maximum for custom knee braces.',
+	'DAP', GETDATE(), 'DAP', GETDATE()),
+	('Medicines', 
+	'Payable only if required as the result of a covered Sickness or Injury. Purchase of medical supplies, including dressings and prosthetic appliances; Rental charges for wheelchairs, crutches, Hospital-type bed or other appliances, not to exceed purchase price. Up to $200 Benefit Maximum for prescription glasses or contact lenses, or up to $300 Benefit Maximum for hearing aids. Up to $300 Benefit Maximum for custom orthotics, or up to $800 Benefit Maximum for custom knee braces.',
+	'DPM', GETDATE(), 'DPM', GETDATE()),
+	('WHEELCHAIR', 
+	'Payable only if required as the result of a covered Sickness or Injury. Purchase of medical supplies, including dressings and prosthetic appliances; Rental charges for wheelchairs, crutches, Hospital-type bed or other appliances, not to exceed purchase price. Up to $200 Benefit Maximum for prescription glasses or contact lenses, or up to $300 Benefit Maximum for hearing aids. Up to $300 Benefit Maximum for custom orthotics, or up to $800 Benefit Maximum for custom knee braces.',
+	'DPM', GETDATE(), 'DPM', GETDATE());
+
+INSERT INTO CUSTOMER VALUES 
+	('Mafra', 'Deivid',111-2222,'deividmafra@aol.com', '999, X street', 'M1Q2W3', '1986-06-03', '1','DPM', GETDATE(), 'DPM', GETDATE()),
+	('Perez', 'Diego',111-2222,'diegoperez@aol.com', '999, X street', 'M1Q2W3', '1982-06-03', '2','DPM', GETDATE(), 'DPM', GETDATE()),
+	('Palmer', 'Sherwayne',111-2222,'sherwaynepalmer@aol.com', '999, X street', 'M1Q2W3', '1988-06-03', '3','DPM', GETDATE(), 'DPM', GETDATE());
+
+INSERT INTO CITY VALUES 
+	('São Paulo','1','DPM', GETDATE(), 'DPM', GETDATE()),
+	('Bogotá','2','DPM', GETDATE(), 'DPM', GETDATE()),
+	('Kingstone', '3','DPM', GETDATE(), 'DPM', GETDATE());
+
+INSERT INTO PROVINCE VALUES 
+	('São Paulo','2','DPM', GETDATE(), 'DPM', GETDATE()),
+	('Bogotá','3','DPM', GETDATE(), 'DPM', GETDATE()),
+	('Kingstone', '1','DPM', GETDATE(), 'DPM', GETDATE());
+
+INSERT INTO COUNTRY VALUES 
+	('JAMAICA','DPM', GETDATE(), 'DPM', GETDATE()),
+	('BRAZIL','DPM', GETDATE(), 'DPM', GETDATE()),
+	('COLOMBIA','DPM', GETDATE(), 'DPM', GETDATE());
+
+INSERT INTO STAFF VALUES 
+	('1986-06-03','Silva', 'Pedro',111-2222,'pedrosilva@aol.com', '999, X street', 'M1Q2W3', '2005-12-25', 3,'DPM', GETDATE(), 'DPM', GETDATE(),null),
+	('1990-05-08','Gonzales', 'Ruiz',111-2222,'gr@aol.com', '999, X street', 'M1Q2W3', '2010-10-15', 2,'DPM', GETDATE(), 'DPM', GETDATE(), null),
+	('1980-10-16','Walker', 'John',111-2222,'wj@aol.com', '999, X street', 'M1Q2W3', '2015-03-01', 1,'DPM', GETDATE(), 'DPM', GETDATE(), null);
 
 SELECT *
   FROM BENEFIT;
@@ -178,16 +187,10 @@ SELECT *
 
 /*Deparment Table*/
 
-INSERT INTO DEPARTMENT (department_name,
-                        usr_create,
-						date_create,
-						usr_update,
-						date_update)
-				VALUES ('Support - Department',
-				        'DAP',
-						GETDATE(),
-						'DAP',
-						GETDATE());
+INSERT INTO DEPARTMENT VALUES
+	--('Support - Department', 'DAP', GETDATE(), 'DAP', GETDATE()),
+	('IT', 'DPM', GETDATE(), 'DPM', GETDATE()),
+	('Sales', 'DPM', GETDATE(), 'DPM', GETDATE());
 
 select *
   from DEPARTMENT;
@@ -226,12 +229,10 @@ select *
   from STAFF;
 
 /*Cause of death table*/
-INSERT INTO CAUSE_OF_DEATH (cause_death_description,
-                            usr_create,
-							usr_update)
-					VALUES ('Yellow Fever',
-					         'DAP',
-							 'DAP');
+INSERT INTO CAUSE_OF_DEATH  VALUES 
+	('Yellow Fever', 'DAP', GETDATE(), 'DAP', GETDATE()),
+	('Suicide', 'DPM', GETDATE(), 'DPM', GETDATE()),
+	('Tuberculose', 'DPM',GETDATE(), 'DPM',GETDATE());
 
 
 select *
@@ -273,7 +274,7 @@ INSERT INTO BENEFICIARY (beneficiary_last_name,
 						 beneficiary_middle_name,
 						 beneficiary_brith_day,
 						 beneficiary_relation,
-						 beneficiary_porcentage,
+						 beneficiary_percentage,
 						 policy_id,
 						 usr_create,
 						 usr_update)

@@ -100,7 +100,7 @@ ALTER TABLE PROVINCE
 
 --TABLE CITY
 CREATE TABLE CITY
-(  city_id	        INTEGER	        NOT NULL IDENTITY(1,1)S,
+(  city_id	        INTEGER	        NOT NULL IDENTITY(1,1),
    city_name	    VARCHAR(256)    NOT NULL,
    province_id	    INTEGER	        NOT NULL,
    usr_create       VARCHAR(3)      NOT NULL,
@@ -164,6 +164,12 @@ CREATE TABLE STAFF
 ALTER TABLE STAFF 
   ADD CONSTRAINT staff_staff_id_pk
       PRIMARY KEY( staff_id );
+
+ALTER TABLE STAFF 
+	DROP COLUMN isemployee;
+
+ALTER TABLE STAFF 
+	ADD fire_date date;
 
 --TABLE CUSTOMER
 CREATE TABLE CUSTOMER
@@ -390,8 +396,8 @@ ALTER TABLE CAUSE_OF_DEATH
       PRIMARY KEY( cause_death_id );
 
 /*This is an example how to add a column in a table where it is already created.*/
-ALTER TABLE POLICY
-  ADD cause_death_id INTEGER;
+--ALTER TABLE POLICY
+--  ADD cause_death_id INTEGER;
 
 --falta
 ALTER TABLE POLICY
