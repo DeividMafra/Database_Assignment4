@@ -1,8 +1,8 @@
-/* This line to erase the database.
-Drop database INSURANCE_COMPANY */
-
 /* This line to create the database.
 create database INSURANCE_COMPANY */
+
+/* This line to erase the database.
+Drop database INSURANCE_COMPANY */
 
 USE INSURANCE_COMPANY;
 
@@ -122,9 +122,8 @@ ALTER TABLE CITY
 CREATE TABLE PRODUCT
 (  product_id				INTEGER	NOT NULL	IDENTITY(1,1),
    name						VARCHAR(256)	NOT NULL,
-   description				VARCHAR(8000)	NOT NULL, -- changed
+   description				VARCHAR(8000)	NOT NULL, 
    definition				VARCHAR(8000)	NOT NULL,
-   --benefits					VARCHAR(8000)	NOT NULL,
    limits					VARCHAR(8000)	NOT NULL,
    exclusions				VARCHAR(8000)	NOT NULL,
    general_condition		VARCHAR(8000)	NOT NULL,
@@ -176,15 +175,12 @@ CREATE TABLE CUSTOMER
 (  customer_id		INTEGER	        NOT NULL	IDENTITY(1,1),
    last_name		VARCHAR(256)	NOT NULL,
    first_name		VARCHAR(256)	NOT NULL,
-   --category_id		INTEGER         NOT NULL,
    phone			NUMERIC(18)	    NOT NULL,
    email			VARCHAR(256),
    address			VARCHAR(256)	NOT NULL,
    zipcode			VARCHAR(9)      NOT NULL,
    date_of_birth	DATE	        NOT NULL,
    city_id			INTEGER         NOT NULL,
-   --province_id		INTEGER NOT NULL,
-   --country_id		INTEGER NOT NULL
    usr_create       VARCHAR(3)      NOT NULL,
    date_create      DATE            NOT NULL DEFAULT GETDATE(),
    usr_update       VARCHAR(3)      NOT NULL,
@@ -205,9 +201,6 @@ CREATE TABLE POLICY
    customer_id		INTEGER	     NOT NULL,
    product_id		INTEGER      NOT NULL,
    category_id      VARCHAR(3)   NOT NULL,
-   --benefit_id       INTEGER      NOT NULL,
-   --term_id          INTEGER      NOT NULL,
-   --coverage_id      INTEGER      NOT NULL,
    cause_death_id   INTEGER,
    usr_create       VARCHAR(3)   NOT NULL,
    date_create      DATE         NOT NULL  DEFAULT GETDATE(),
@@ -218,8 +211,6 @@ CREATE TABLE POLICY
 ALTER TABLE POLICY
 ADD CONSTRAINT chkTerm_expire_date
 CHECK (expire_date >= issue_date)
-
---term_range_max
 
 ALTER TABLE POLICY 
   ADD CONSTRAINT policy_policy_id_pk
@@ -256,47 +247,10 @@ ALTER TABLE STAFF
       FOREIGN KEY( department_id )
       REFERENCES department( department_id );
 
-
-
-/*ALTER TABLE CUSTOMER
-  ADD CONSTRAINT customer_category_id_fk
-      FOREIGN KEY( category_id )
-      REFERENCES category( category_id );
-	  */
 ALTER TABLE CUSTOMER
   ADD CONSTRAINT customer_city_id_fk
       FOREIGN KEY( city_id )
       REFERENCES city( city_id );
-
---WE COULD KNOW THE PROVINCE AND COUNTRY WITH THE CUSTOMER'S CITY
-/*ALTER TABLE CUSTOMER
-  ADD CONSTRAINT customer_province_id_fk
-      FOREIGN KEY( province_id )
-      REFERENCES province( province_id );
-
-ALTER TABLE CUSTOMER
-  ADD CONSTRAINT customer_country_id_fk
-      FOREIGN KEY( country_id )
-      REFERENCES country( country_id );
-
-	  */
-
---Procedure Country
---CREATE PROCEDURE dbo.country_insert @country_name nvarchar(256), 
---                                    @usr_create   nvarchar(3)
---AS
-
---	insert into dbo.COUNTRY (country_name,
---							 usr_create,
---							 date_create,
---							 usr_update,
---							 date_update)
---					 values (@country_name,
---							 @usr_create,
---							  getdate(),
---							  @usr_create,
---							  getdate())
---GO;
 
 CREATE TABLE BENEFIT
 (
@@ -323,15 +277,6 @@ CREATE TABLE CATEGORY_BENEFIT
     usr_update              VARCHAR(3)   NOT NULL,
     date_update             DATE         NOT NULL
 );
-
---ALTER TABLE TERM
---  ADD CONSTRAINT term_id_pk
---	PRIMARY KEY (term_id);
-
---ALTER TABLE POLICY
---  ADD CONSTRAINT policy_term_id_fk
---      FOREIGN KEY( term_id )
---      REFERENCES term ( term_id );
 
 ALTER TABLE CATEGORY_BENEFIT 
   ADD CONSTRAINT category_ben_id_pk
@@ -369,8 +314,6 @@ CREATE TABLE BENEFICIARY
     date_update              DATE           NOT NULL DEFAULT GETDATE()
 );
 
---DROP TABLE BENEFICIARY
-
 ALTER TABLE BENEFICIARY 
   ADD CONSTRAINT beneficiary_id_pk
       PRIMARY KEY( beneficiary_id );
@@ -398,51 +341,7 @@ ALTER TABLE CAUSE_OF_DEATH
   ADD CONSTRAINT cause_death_id_pk
       PRIMARY KEY( cause_death_id );
 
-/*This is an example how to add a column in a table where it is already created.*/
---ALTER TABLE POLICY
---  ADD cause_death_id INTEGER;
-
---falta
 ALTER TABLE POLICY
   ADD CONSTRAINT cause_death_id_fk
       FOREIGN KEY( cause_death_id )
       REFERENCES CAUSE_OF_DEATH ( cause_death_id );
-
---CREATE TABLE TERM
---(
---	term_id         INTEGER    NOT NULL IDENTITY(1,1),
---	term_range_min  INTEGER    NOT NULL,
---	term_range_max  INTEGER    NOT NULL,
---	usr_create      VARCHAR(3) NOT NULL,
---    date_create     DATE       NOT NULL DEFAULT GETDATE(),
---    usr_update      VARCHAR(3) NOT NULL,
---    date_update     DATE       NOT NULL DEFAULT GETDATE()
---);
-
---ALTER TABLE TERM
---  ADD CONSTRAINT term_id_pk
---	PRIMARY KEY (term_id);
-
---ALTER TABLE POLICY
---  ADD CONSTRAINT policy_term_id_fk
---      FOREIGN KEY( term_id )
---      REFERENCES term ( term_id );
-
---CREATE TABLE COVERAGE
---(
---	coverage_id    INTEGER       NOT NULL IDENTITY(1,1),
---	coverage_price DECIMAL(14,2) NOT NULL,
---	usr_create      VARCHAR(3)   NOT NULL,
---    date_create     DATE         NOT NULL DEFAULT GETDATE(),
---    usr_update      VARCHAR(3)   NOT NULL,
---    date_update     DATE         NOT NULL DEFAULT GETDATE()
---);
-
---ALTER TABLE COVERAGE
---	ADD CONSTRAINT coverage_id_pk
---		PRIMARY KEY (coverage_id);
-
---ALTER TABLE POLICY
---  ADD CONSTRAINT policy_coverage_id_fk
---      FOREIGN KEY( coverage_id )
---      REFERENCES coverage ( coverage_id );
