@@ -151,7 +151,7 @@ CREATE TABLE STAFF
    email			VARCHAR(256),
    address			VARCHAR(256)   NOT NULL,
    zipcode			VARCHAR(7)     NOT NULL,
-   isemployee		BIT            NOT NULL,
+   termination_date DATE,
    hire_date		DATE	       NOT NULL	DEFAULT getdate(),
    department_id	INTEGER        NOT NULL,
    usr_create       VARCHAR(3)     NOT NULL,
@@ -164,11 +164,6 @@ ALTER TABLE STAFF
   ADD CONSTRAINT staff_staff_id_pk
       PRIMARY KEY( staff_id );
 
-ALTER TABLE STAFF 
-	DROP COLUMN fire_date;
-
-ALTER TABLE STAFF 
-	ADD job_ended date;
 
 --TABLE CUSTOMER
 CREATE TABLE CUSTOMER
